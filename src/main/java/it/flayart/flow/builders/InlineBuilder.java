@@ -9,16 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InlineBuilder {
+    private final SendMessage sendMessage;
+    private final InlineKeyboardMarkup keyboardMarkup;
 
-    private final Long chatid;
-    private final String message;
+    private InlineKeyboardButton button;
 
     private List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-    private List<InlineKeyboardButton> row = null;
+    private List<InlineKeyboardButton> row;
 
-    public InlineBuilder(Long chatid, String message) {
-        this.chatid = chatid;
-        this.message = message;
+    public InlineBuilder(String chatid, String message) {
+        this.sendMessage = new SendMessage();
+        this.keyboardMarkup = new InlineKeyboardMarkup();
+
+        this.sendMessage.setText(message);
+        this.sendMessage.setChatId(chatid);
     }
 
     public InlineBuilder row() {
@@ -27,18 +31,18 @@ public class InlineBuilder {
     }
 
     public InlineBuilder button(String text, String callbackData) {
-        InlineKeyboardButton button = new InlineKeyboardButton();
-        button.setText(text);
-        button.setCallbackData(callbackData);
-        row.add(button);
+        this.button = new InlineKeyboardButton();
+        this.button.setText(text);
+        this.button.setCallbackData(callbackData);
+        this.row.add(button);
         return this;
     }
 
     public InlineBuilder buttonUrl(String text, String url) {
-        InlineKeyboardButton button = new InlineKeyboardButton();
-        button.setText(text);
-        button.setUrl(url);
-        row.add(button);
+        this.button = new InlineKeyboardButton();
+        this.button.setText(text);
+        this.button.setUrl(url);
+        this.row.add(button);
         return this;
     }
 
@@ -50,14 +54,10 @@ public class InlineBuilder {
 
     @SneakyThrows
     public SendMessage build() {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setText(this.message);
-        sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(String.valueOf(chatid));
+        this.sendMessage.enableMarkdown(true);
 
-        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
-        keyboardMarkup.setKeyboard(keyboard);
-        sendMessage.setReplyMarkup(keyboardMarkup);
+        this.keyboardMarkup.setKeyboard(keyboard);
+        this.sendMessage.setReplyMarkup(keyboardMarkup);
 
         return sendMessage;
     }
