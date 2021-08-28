@@ -1,5 +1,6 @@
 package it.flayart.flow.builders;
 
+import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -26,7 +27,7 @@ public class InlineBuilder {
     }
 
     public InlineBuilder row() {
-        this.row = new ArrayList<>();
+        this.row = Lists.newArrayList();
         return this;
     }
 

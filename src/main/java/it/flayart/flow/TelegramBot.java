@@ -2,8 +2,11 @@ package it.flayart.flow;
 
 import it.flayart.flow.objects.TelegramMap;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Getter
 public abstract class TelegramBot extends TelegramLongPollingBot {
@@ -35,6 +38,12 @@ public abstract class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         this.telegramMap.executeCommand(update);
         this.telegramMap.executeCallback(update);
+    }
+
+    @SneakyThrows
+    public void start() {
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+        telegramBotsApi.registerBot(this);
     }
 
     public abstract void onEnable();
