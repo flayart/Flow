@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 public class PhotoBuilder {
     private final SendPhoto sendPhoto;
     private InlineKeyboardMarkup keyboard;
+    private Integer replyMessageId;
 
     public PhotoBuilder(String chatid, InputFile photo) {
         this.sendPhoto = new SendPhoto();
@@ -20,6 +21,8 @@ public class PhotoBuilder {
 
     public SendPhoto build() {
         if(keyboard != null) this.sendPhoto.setReplyMarkup(keyboard);
+        if(replyMessageId != null) this.sendPhoto.setReplyToMessageId(replyMessageId);
+
         return sendPhoto;
     }
 }

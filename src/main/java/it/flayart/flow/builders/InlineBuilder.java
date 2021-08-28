@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 public class InlineBuilder {
     private final SendMessage sendMessage;
     private InlineKeyboardMarkup keyboard;
+    private Integer replyMessageId;
 
     public InlineBuilder(String chatid, String message) {
         this.sendMessage = new SendMessage();
@@ -21,8 +22,9 @@ public class InlineBuilder {
     @SneakyThrows
     public SendMessage build() {
         if(keyboard != null) this.sendMessage.setReplyMarkup(keyboard);
-        this.sendMessage.enableMarkdown(true);
+        if(replyMessageId != null) this.sendMessage.setReplyToMessageId(replyMessageId);
 
+        this.sendMessage.enableMarkdown(true);
         return sendMessage;
     }
 }
