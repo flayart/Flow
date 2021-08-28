@@ -20,8 +20,8 @@ public class InlineBuilder {
 
     @SneakyThrows
     public SendMessage build() {
+        if(keyboard != null) this.sendMessage.setReplyMarkup(keyboard);
         this.sendMessage.enableMarkdown(true);
-        this.sendMessage.setReplyMarkup(keyboard);
 
         return sendMessage;
     }

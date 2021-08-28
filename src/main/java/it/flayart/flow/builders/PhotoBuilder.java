@@ -7,11 +7,11 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Getter @Setter
-public class ImageBuilder {
+public class PhotoBuilder {
     private final SendPhoto sendPhoto;
     private InlineKeyboardMarkup keyboard;
 
-    public ImageBuilder(String chatid, InputFile photo) {
+    public PhotoBuilder(String chatid, InputFile photo) {
         this.sendPhoto = new SendPhoto();
 
         this.sendPhoto.setChatId(chatid);
@@ -19,7 +19,7 @@ public class ImageBuilder {
     }
 
     public SendPhoto build() {
-        this.sendPhoto.setReplyMarkup(keyboard);
+        if(keyboard != null) this.sendPhoto.setReplyMarkup(keyboard);
         return sendPhoto;
     }
 }
